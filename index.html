@@ -97,6 +97,45 @@
       color: var(--text-main);
     }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* Scroll Animation */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      will-change: opacity, transform;
+    }
+    
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes logoPulseBreath {
+      0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(171, 140, 71, 0.2)); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(171, 140, 71, 0.5)); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(171, 140, 71, 0.2)); }
+    }
+
+    .hero-logo-img {
+      max-width: 280px;
+      height: auto;
+      margin: 0 auto 1.5rem;
+      display: block;
+      animation: logoPulseBreath 5s infinite ease-in-out;
+    }
+    
     body {
       font-family: 'Lora', Georgia, serif;
       line-height: 1.7;
@@ -793,21 +832,38 @@
     .history-details {
       margin-top: 1.25rem;
       width: 100%;
-      text-align: left;
+      text-align: center;
+    }
+    @keyframes pulseHistoryBtn {
+      0% { box-shadow: 0 0 0 0 rgba(171, 140, 71, 0.6); }
+      70% { box-shadow: 0 0 0 10px rgba(171, 140, 71, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(171, 140, 71, 0); }
     }
     .history-details summary {
       cursor: pointer;
-      font-weight: 600;
-      color: var(--gold-dark);
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      border: 1px solid var(--gold-dark);
+      border-radius: var(--radius-full);
+      padding: 0.65rem 1.5rem;
       list-style: none;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
       font-size: 0.9rem;
-      transition: color 0.2s ease;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      animation: pulseHistoryBtn 2s infinite;
     }
     .history-details summary:hover {
-      color: var(--gold-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(171, 140, 71, 0.4);
+    }
+    .history-details summary:active {
+      transform: translateY(1px);
     }
     .history-details summary::-webkit-details-marker {
       display: none;
@@ -1785,6 +1841,7 @@
           <li><a href="#ordenandos" class="nav-link">Ordenandos</a></li>
           <li><a href="#informacoes" class="nav-link">Informações</a></li>
           <li><a href="#oracoes" class="nav-link">Orações</a></li>
+          <li><a href="#materiais" class="nav-link">Materiais</a></li>
           <li><a href="#apoio" class="nav-link">Apoio Fraterno</a></li>
           <li><a href="#localizacao" class="nav-link">Localização</a></li>
           <li>
@@ -1965,7 +2022,7 @@
     <!-- ==========================================================================
          3. TEXTO-CONVITE SOLENE
          ========================================================================== -->
-    <section class="section-spacing">
+    <section class="section-spacing fade-in-section">
       <div class="container">
         
         <div class="invite-box-container ornate-card">
@@ -2009,7 +2066,7 @@
     <!-- ==========================================================================
          4. OS ORDENANDOS
          ========================================================================== -->
-    <section id="ordenandos" class="section-spacing" style="background-color: var(--bg-parchment-light); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border);">
+    <section id="ordenandos" class="section-spacing fade-in-section" style="background-color: var(--bg-parchment-light); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border);">
       <div class="container">
         
         <div class="section-header">
@@ -2142,7 +2199,7 @@
     <!-- ==========================================================================
          5. INFORMAÇÕES DA CELEBRAÇÃO
          ========================================================================== -->
-    <section id="informacoes" class="section-spacing">
+    <section id="informacoes" class="section-spacing fade-in-section">
       <div class="container">
         
         <div class="section-header">
@@ -2257,7 +2314,7 @@
     <!-- ==========================================================================
          6. LOCALIZAÇÃO
          ========================================================================== -->
-    <section id="localizacao" class="section-spacing" style="background-color: var(--bg-parchment-light); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border);">
+    <section id="localizacao" class="section-spacing fade-in-section" style="background-color: var(--bg-parchment-light); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border);">
       <div class="container">
         
         <div class="section-header">
@@ -2320,7 +2377,7 @@
     <!-- ==========================================================================
          7. MURAL DE ORAÇÕES E MENSAGENS
          ========================================================================== -->
-    <section id="oracoes" class="section-spacing">
+    <section id="oracoes" class="section-spacing fade-in-section">
       <div class="container">
         
         <div class="section-header">
@@ -2347,8 +2404,8 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="msgText">Sua intenção de oração *</label>
-                <textarea id="msgText" class="form-textarea" rows="4" placeholder="Escreva aqui sua intenção de oração..." maxlength="500" required oninput="updateCharCounter()"></textarea>
+                <label class="form-label" for="msgText">Deixe sua mensagem ou sua intenção de oração *</label>
+                <textarea id="msgText" class="form-textarea" rows="4" placeholder="Escreva aqui sua mensagem ou intenção..." maxlength="500" required oninput="updateCharCounter()"></textarea>
                 <div style="display: flex; justify-content: flex-end; font-size: 0.78rem; color: var(--text-muted); margin-top: 0.35rem;" id="charCounter">0 / 500 caracteres</div>
               </div>
 
@@ -2401,9 +2458,54 @@
     </section>
 
     <!-- ==========================================================================
+         MATERIAIS E DOWNLOADS
+         ========================================================================== -->
+    <section id="materiais" class="section-spacing fade-in-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Materiais de Apoio</span>
+          <h2 class="section-title">Downloads</h2>
+          <p class="section-subtitle">Tenha acesso aos materiais litúrgicos e subsídios vocacionais da ordenação.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 800px; margin: 0 auto;">
+          <a href="#" class="info-card" style="text-decoration: none; color: inherit;">
+            <div class="info-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <div class="info-card-body">
+              <h3>Livreto da Missa</h3>
+              <p>Baixe o roteiro litúrgico da celebração em PDF.</p>
+            </div>
+          </a>
+
+          <a href="#" class="info-card" style="text-decoration: none; color: inherit;">
+            <div class="info-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <div class="info-card-body">
+              <h3>Convite Oficial</h3>
+              <p>Baixe a imagem oficial do convite para compartilhar.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
          8. APOIO FRATERNO À ORDENAÇÃO (PIX)
          ========================================================================== -->
-    <section id="apoio" class="section-spacing" style="background-color: var(--bg-parchment-light); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border);">
+    <section id="apoio" class="section-spacing fade-in-section" style="background-color: var(--bg-parchment-light); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border);">
       <div class="container">
         
         <div class="section-header">
@@ -2515,7 +2617,7 @@
       <div class="yt-embed-frame-container">
         <iframe 
           id="ytIframe" 
-          src="https://www.youtube-nocookie.com/embed/9I0kb3YClLY?list=PLUK8yrBE-TeU&enablejsapi=1&autoplay=1&playsinline=1&rel=0" 
+          src="https://www.youtube-nocookie.com/embed/nTdhx9Zz04U?list=PLUK8yrBE-TeU&enablejsapi=1&autoplay=1&playsinline=1&rel=0" 
           title="Playlist de Ordenação Diaconal" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
           allowfullscreen>
@@ -2523,7 +2625,7 @@
       </div>
       <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--text-muted);">
         <span>Caso o áudio seja bloqueado pelo navegador, clique no player acima.</span>
-        <a href="https://www.youtube.com/watch?v=9I0kb3YClLY&list=PLUK8yrBE-TeU" target="_blank" rel="noopener noreferrer" style="color:var(--gold-dark); font-weight:600; text-decoration:underline;">Abrir no YouTube ↗</a>
+        <a href="https://www.youtube.com/watch?v=nTdhx9Zz04U&list=PLUK8yrBE-TeU" target="_blank" rel="noopener noreferrer" style="color:var(--gold-dark); font-weight:600; text-decoration:underline;">Abrir no YouTube ↗</a>
       </div>
     </div>
 
@@ -2915,6 +3017,7 @@
 
     /* INICIALIZAÇÃO DA PÁGINA */
     document.addEventListener('DOMContentLoaded', function() {
+      initScrollAnimations();
       initFirebaseService();
       renderOfficialImages();
       initMobileMenu();
@@ -3325,6 +3428,28 @@
 
     // Senha mestre de acesso admin (pode ser alterada e salva no localStorage/Firestore)
     let adminMasterPassword = localStorage.getItem('diaconal_admin_pass') || 'diacono2026';
+
+    /* ANIMAÇÃO DE SCROLL (FADE IN) */
+    function initScrollAnimations() {
+      const sections = document.querySelectorAll('.fade-in-section');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); // Stop observing once it's visible
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15 // Triggers when 15% of the element is visible
+      });
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    }
 
     function initFirebaseService() {
       try {
