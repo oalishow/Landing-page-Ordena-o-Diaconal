@@ -91,7 +91,6 @@
     }
 
     html {
-      scroll-behavior: smooth;
       font-size: 16px;
       background-color: var(--bg-ivory);
       color: var(--text-main);
@@ -2469,7 +2468,7 @@
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 800px; margin: 0 auto;">
-          <a href="#" class="info-card" style="text-decoration: none; color: inherit;">
+          <a href="#" class="info-card" id="linkMaterialLivreto" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; position: relative; transition: all 0.3s ease;">
             <div class="info-card-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -2479,13 +2478,16 @@
                 <polyline points="10 9 9 9 8 9"></polyline>
               </svg>
             </div>
-            <div class="info-card-body">
+            <div class="info-card-body" style="flex: 1; display: flex; flex-direction: column;">
               <h3>Livreto da Missa</h3>
-              <p>Baixe o roteiro litúrgico da celebração em PDF.</p>
+              <p style="margin-bottom: 0.75rem;">Baixe o roteiro litúrgico da celebração em PDF.</p>
+              <div style="margin-top: auto;">
+                <span id="statusLivreto" style="display: inline-block; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; background: var(--gold-soft); color: var(--gold-dark);">Disponível em breve</span>
+              </div>
             </div>
           </a>
 
-          <a href="#" class="info-card" style="text-decoration: none; color: inherit;">
+          <a href="#" class="info-card" id="linkMaterialConvite" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; position: relative; transition: all 0.3s ease;">
             <div class="info-card-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -2493,9 +2495,12 @@
                 <polyline points="21 15 16 10 5 21"></polyline>
               </svg>
             </div>
-            <div class="info-card-body">
+            <div class="info-card-body" style="flex: 1; display: flex; flex-direction: column;">
               <h3>Convite Oficial</h3>
-              <p>Baixe a imagem oficial do convite para compartilhar.</p>
+              <p style="margin-bottom: 0.75rem;">Baixe a imagem oficial do convite para compartilhar.</p>
+              <div style="margin-top: auto;">
+                <span id="statusConvite" style="display: inline-block; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700; background: var(--gold-soft); color: var(--gold-dark);">Disponível em breve</span>
+              </div>
             </div>
           </a>
         </div>
@@ -2905,6 +2910,18 @@
                 </div>
               </div>
 
+              <!-- Seção Materiais e Downloads -->
+              <div class="admin-form-card">
+                <h4>📥 Materiais e Downloads</h4>
+                <div class="admin-field">
+                  <label for="inputUrlLivreto">Link do Livreto da Missa (Ex: Google Drive, PDF):</label>
+                  <input type="url" id="inputUrlLivreto" placeholder="https://..." />
+                </div>
+                <div class="admin-field">
+                  <label for="inputUrlConvite">Link do Convite Oficial (Ex: Google Drive, Imagem):</label>
+                  <input type="url" id="inputUrlConvite" placeholder="https://..." />
+                </div>
+              </div>
             </div>
 
             <div style="margin-top: 1.25rem; display: flex; gap: 1rem; justify-content: flex-end; align-items: center; border-top: 1px solid var(--gold-border); padding-top: 1rem;">
@@ -3626,6 +3643,51 @@
         const pixKeyText = document.getElementById('pixKeyText');
         if (pixKeyText) pixKeyText.innerText = data.pixChave;
       }
+
+      // 7. Materiais
+      const linkLivreto = document.getElementById('linkMaterialLivreto');
+      const statusLivreto = document.getElementById('statusLivreto');
+      if (linkLivreto && statusLivreto) {
+        if (data.urlLivreto && data.urlLivreto.trim() !== '') {
+          linkLivreto.href = data.urlLivreto;
+          linkLivreto.target = '_blank';
+          linkLivreto.rel = 'noopener noreferrer';
+          linkLivreto.style.opacity = '1';
+          linkLivreto.style.pointerEvents = 'auto';
+          statusLivreto.innerText = 'Disponível';
+          statusLivreto.style.background = 'rgba(40, 167, 69, 0.15)';
+          statusLivreto.style.color = '#1e7e34';
+        } else {
+          linkLivreto.removeAttribute('href');
+          linkLivreto.style.opacity = '0.65';
+          linkLivreto.style.pointerEvents = 'none';
+          statusLivreto.innerText = 'Indisponível no momento';
+          statusLivreto.style.background = 'var(--gold-soft)';
+          statusLivreto.style.color = 'var(--text-muted)';
+        }
+      }
+
+      const linkConvite = document.getElementById('linkMaterialConvite');
+      const statusConvite = document.getElementById('statusConvite');
+      if (linkConvite && statusConvite) {
+        if (data.urlConvite && data.urlConvite.trim() !== '') {
+          linkConvite.href = data.urlConvite;
+          linkConvite.target = '_blank';
+          linkConvite.rel = 'noopener noreferrer';
+          linkConvite.style.opacity = '1';
+          linkConvite.style.pointerEvents = 'auto';
+          statusConvite.innerText = 'Disponível';
+          statusConvite.style.background = 'rgba(40, 167, 69, 0.15)';
+          statusConvite.style.color = '#1e7e34';
+        } else {
+          linkConvite.removeAttribute('href');
+          linkConvite.style.opacity = '0.65';
+          linkConvite.style.pointerEvents = 'none';
+          statusConvite.innerText = 'Indisponível no momento';
+          statusConvite.style.background = 'var(--gold-soft)';
+          statusConvite.style.color = 'var(--text-muted)';
+        }
+      }
     }
 
     /* PREENCHE OS CAMPOS DO FORMULÁRIO DO PAINEL ADMIN COM DADOS DO BANCO */
@@ -3650,6 +3712,8 @@
       setVal('inputBispoTitulo', data.bispoTitulo || 'Bispo Diocesano de Assis');
       setVal('inputFotoBispo', data.fotoBispo || '');
       setVal('inputBrasaoBispo', data.brasaoBispo || '');
+      setVal('inputUrlLivreto', data.urlLivreto || '');
+      setVal('inputUrlConvite', data.urlConvite || '');
       setVal('inputDataHorario', data.dataHorario || '19 de Novembro de 2026, às 19h00');
       setVal('inputLocalNome', data.localNome || 'Paróquia Santa Cecília');
       setVal('inputLocalEndereco', data.localEndereco || 'Assis – SP');
@@ -4155,6 +4219,8 @@
         pixChave: getVal('inputPixChave'),
         pixNome: getVal('inputPixNome'),
         pixBanco: getVal('inputPixBanco'),
+        urlLivreto: getVal('inputUrlLivreto'),
+        urlConvite: getVal('inputUrlConvite'),
         updatedAt: new Date().toISOString()
       };
 
